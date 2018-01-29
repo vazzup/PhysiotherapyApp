@@ -3,4 +3,5 @@
     <string name="username_hint">Enter Username</string>
     <string name="password_hint">Enter Password</string>
     <string name="login_text">Login</string>
+    <string name="error_text">Oops! Something went wrong!</string>
 </resources>
