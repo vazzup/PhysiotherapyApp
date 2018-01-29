@@ -4,4 +4,6 @@
     <string name="password_hint">Enter Password</string>
     <string name="login_text">Login</string>
     <string name="error_text">Oops! Something went wrong!</string>
+    <string name="name_text">Name</string>
+    <string name="patient_list_text">List of your Patients</string>
 </resources>
