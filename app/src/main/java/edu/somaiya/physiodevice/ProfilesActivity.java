@@ -1,14 +1,19 @@
 package edu.somaiya.physiodevice;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -38,12 +43,12 @@ public class ProfilesActivity extends AppCompatActivity {
         this.calibrateButton = (Button) findViewById(R.id.calibrate_button);
         this.profilesList = (ListView) findViewById(R.id.profiles_list);
 
-        profilesList.setOnItemClickListener(((adapterView, view, i, l) -> {
+        /* profilesList.setOnItemClickListener(((adapterView, view, i, l) -> {
             Log.d("ITEM", "Item Clicked!");
             new AsyncStartTrainingTask().execute(Integer.parseInt(((TextView) adapterView.getItemAtPosition(i)).getText().toString().trim()));
-        }));
+        })); */
 
-        this.profilesList.setAdapter(new ArrayAdapter<String>(this, R.layout.profile_list_layout, new ArrayList<String>()));
+        this.profilesList.setAdapter(new ProfileAdapter(this, new ArrayList<String>()));
 
         calibrateButton.setOnClickListener((view) -> {
             new AsyncCalibrateTask().execute();
@@ -96,19 +101,6 @@ public class ProfilesActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            /* RequestQueue queue = Volley.newRequestQueue(this);
-
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-
-                }
-            }); */
             return null;
         }
     }
@@ -119,12 +111,13 @@ public class ProfilesActivity extends AppCompatActivity {
         public static final int READ_TIMEOUT = 15000;
         public static final int CONNECTION_TIMEOUT = 15000;
         public JSONObject jsonObject;
-        ArrayAdapter arrayAdapter;
+        ProfileAdapter profileAdapter;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            arrayAdapter = (ArrayAdapter) profilesList.getAdapter();
+            profileAdapter = (ProfileAdapter) profilesList.getAdapter();
+            profileAdapter.arrayList.clear();
         }
 
         @Override
@@ -134,10 +127,8 @@ public class ProfilesActivity extends AppCompatActivity {
                 String[] profileNames = jsonObject.getJSONArray("profile_nos").join(",").split(",");
                 Log.d("PostExecute", profileNames[0] + "x" + profileNames[1] + "x" + profileNames[2]);
                 for(String profileName : profileNames) {
-                    arrayAdapter.add(profileName);
+                    profileAdapter.add(profileName);
                 }
-                arrayAdapter.notifyDataSetChanged();
-                Log.d("PostExecute", "NOTIFY CHANGE");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -232,6 +223,56 @@ public class ProfilesActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             return null;
+        }
+    }
+
+    class ProfileAdapter extends BaseAdapter implements ListAdapter {
+
+        Context context;
+        ArrayList<String> arrayList;
+
+        ProfileAdapter(Context context, ArrayList<String> arrayList) {
+            this.context = context;
+            this.arrayList = arrayList;
+        }
+
+        public void add(String s) {
+            arrayList.add(s);
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public int getCount() {
+            return arrayList.size();
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return arrayList.get(i);
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            if(view == null) {
+                LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                view = layoutInflater.inflate(R.layout.profile_list_layout, null);
+            }
+            if(i >= arrayList.size()) {
+                return view;
+            }
+            Button button = (Button) findViewById(R.id.profile_button);
+            if(button == null) return view;
+            button.setText((String)arrayList.get(i));
+            button.setOnClickListener((view1) -> {
+                new AsyncStartTrainingTask().execute(Integer.parseInt(button.getText().toString().trim()));
+            });
+
+            return view;
         }
     }
 }

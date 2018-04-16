@@ -5,13 +5,11 @@
     android:descendantFocusability="blocksDescendants"
     android:layout_width="match_parent"
     android:id="@+id/profile_list_ll">
-    <TextView
-        android:id="@+id/profile_textview"
+    <Button
+        android:id="@+id/profile_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/small_font_size"
-        android:textSize="@dimen/small_font_size"
-        android:clickable="true"
-        android:focusable="true"/>
+        android:textSize="@dimen/small_font_size" />
 </LinearLayout>
 
