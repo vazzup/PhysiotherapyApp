@@ -5,6 +5,7 @@
     <string name="ip_add_hint">Enter IP</string>
     <string name="rep_hint">Enter No. Of Reps</string>
     <string name="login_text">Login</string>
+    <string name="train_text">Train</string>
     <string name="refresh_text">Refresh</string>
     <string name="calibrate_text">Calibrate</string>
     <string name="title_activity_profiles">ProfilesActivity</string>

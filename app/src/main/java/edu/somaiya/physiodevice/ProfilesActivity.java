@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import org.json.JSONObject;
@@ -29,8 +31,8 @@ import java.util.ArrayList;
 
 public class ProfilesActivity extends AppCompatActivity {
 
-    Button refreshButton, calibrateButton;
-    ListView profilesList;
+    Button refreshButton, calibrateButton, trainButton;
+    RadioGroup profilesRadioGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,21 +43,29 @@ public class ProfilesActivity extends AppCompatActivity {
 
         this.refreshButton = (Button) findViewById(R.id.refresh_button);
         this.calibrateButton = (Button) findViewById(R.id.calibrate_button);
-        this.profilesList = (ListView) findViewById(R.id.profiles_list);
+        this.profilesRadioGroup = (RadioGroup) findViewById(R.id.profile_radio_group);
+        this.trainButton = (Button) findViewById(R.id.train_button);
 
         /* profilesList.setOnItemClickListener(((adapterView, view, i, l) -> {
             Log.d("ITEM", "Item Clicked!");
             new AsyncStartTrainingTask().execute(Integer.parseInt(((TextView) adapterView.getItemAtPosition(i)).getText().toString().trim()));
         })); */
 
-        this.profilesList.setAdapter(new ProfileAdapter(this, new ArrayList<String>()));
-
         calibrateButton.setOnClickListener((view) -> {
             new AsyncCalibrateTask().execute();
         });
 
         refreshButton.setOnClickListener((view) -> {
-                new AsyncRefreshTask().execute();
+                new AsyncRefreshTask().execute(this);
+        });
+
+        trainButton.setOnClickListener((view) -> {
+            if(profilesRadioGroup.getCheckedRadioButtonId() == -1)
+            {
+            } else {
+                RadioButton radioButton = (RadioButton) findViewById(profilesRadioGroup.getCheckedRadioButtonId());
+                new AsyncStartTrainingTask().execute(Integer.parseInt(radioButton.getText().toString().trim()), MainActivity.global_rep);
+            }
         });
     }
 
@@ -105,28 +115,31 @@ public class ProfilesActivity extends AppCompatActivity {
         }
     }
 
-    private class AsyncRefreshTask extends AsyncTask<Void, Void, Void> {
+    private class AsyncRefreshTask extends AsyncTask<Context, Void, Void> {
 
         public static final String REQUEST_METHOD = "GET";
         public static final int READ_TIMEOUT = 15000;
         public static final int CONNECTION_TIMEOUT = 15000;
         public JSONObject jsonObject;
-        ProfileAdapter profileAdapter;
-
+        public Context context;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            profileAdapter = (ProfileAdapter) profilesList.getAdapter();
-            profileAdapter.arrayList.clear();
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             try {
+                profilesRadioGroup.removeAllViews();
                 String[] profileNames = jsonObject.getJSONArray("profile_nos").join(",").split(",");
-                for(String profileName : profileNames) {
-                    profileAdapter.add(profileName);
+                int i = 0;
+                int len = profileNames.length;
+                for(int j = len - 1; j>=0; j--) {
+                    RadioButton radioButton = new RadioButton(this.context);
+                    radioButton.setText(profileNames[j]);
+                    radioButton.setId(12345 + i++);
+                    profilesRadioGroup.addView(radioButton);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -134,8 +147,8 @@ public class ProfilesActivity extends AppCompatActivity {
         }
 
         @Override
-        protected Void doInBackground(Void... voids) {
-
+        protected Void doInBackground(Context... contexts) {
+            this.context = contexts[0];
             String urlString = "http://" + MainActivity.server_ip_address + "/get_profiles";
             Log.d("CALIBURL", urlString);
             String result = "{\"profile_nos\": [1, 2, 3, 4]}";
