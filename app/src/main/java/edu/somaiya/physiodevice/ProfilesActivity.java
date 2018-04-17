@@ -125,7 +125,6 @@ public class ProfilesActivity extends AppCompatActivity {
             super.onPostExecute(aVoid);
             try {
                 String[] profileNames = jsonObject.getJSONArray("profile_nos").join(",").split(",");
-                Log.d("PostExecute", profileNames[0] + "x" + profileNames[1] + "x" + profileNames[2]);
                 for(String profileName : profileNames) {
                     profileAdapter.add(profileName);
                 }
@@ -188,7 +187,7 @@ public class ProfilesActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Integer... params) {
-            String urlString = "http://" + MainActivity.server_ip_address + "/start_training/" + params[0];
+            String urlString = "http://" + MainActivity.server_ip_address + "/start_training/" + params[0] + "/" + params[1];
             Log.d("TRAINURL", urlString);
             String result = "";
             try {
@@ -269,7 +268,7 @@ public class ProfilesActivity extends AppCompatActivity {
             if(button == null) return view;
             button.setText((String)arrayList.get(i));
             button.setOnClickListener((view1) -> {
-                new AsyncStartTrainingTask().execute(Integer.parseInt(button.getText().toString().trim()));
+                new AsyncStartTrainingTask().execute(Integer.parseInt(button.getText().toString().trim()), MainActivity.global_rep);
             });
 
             return view;

@@ -3,6 +3,7 @@
     <string name="username_hint">Enter Username</string>
     <string name="password_hint">Enter Password</string>
     <string name="ip_add_hint">Enter IP</string>
+    <string name="rep_hint">Enter No. Of Reps</string>
     <string name="login_text">Login</string>
     <string name="refresh_text">Refresh</string>
     <string name="calibrate_text">Calibrate</string>
