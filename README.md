@@ -18,3 +18,13 @@ Features include:
    1. Profile Calibration
    2. Profile Refresh
    3. Profile Training
+   
+### Version 2.0
+_Version 2.0 is now available in it's separate branch!_
+Features added are:
+   1. Delete Selected Profile
+   2. Delete All Profiles
+   3. Fixed IP
+   4. Add no. of Reps
+   5. Replace ListView with RadioGroup (Scrollable!)
+   

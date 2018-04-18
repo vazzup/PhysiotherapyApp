@@ -31,8 +31,9 @@ import java.util.ArrayList;
 
 public class ProfilesActivity extends AppCompatActivity {
 
-    Button refreshButton, calibrateButton, trainButton;
+    Button refreshButton, calibrateButton, trainButton, deleteProfileButton, deleteAllProfilesButton;
     RadioGroup profilesRadioGroup;
+    public Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,16 +41,13 @@ public class ProfilesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profiles);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        this.context = this;
         this.refreshButton = (Button) findViewById(R.id.refresh_button);
         this.calibrateButton = (Button) findViewById(R.id.calibrate_button);
         this.profilesRadioGroup = (RadioGroup) findViewById(R.id.profile_radio_group);
         this.trainButton = (Button) findViewById(R.id.train_button);
-
-        /* profilesList.setOnItemClickListener(((adapterView, view, i, l) -> {
-            Log.d("ITEM", "Item Clicked!");
-            new AsyncStartTrainingTask().execute(Integer.parseInt(((TextView) adapterView.getItemAtPosition(i)).getText().toString().trim()));
-        })); */
+        this.deleteAllProfilesButton = (Button) findViewById(R.id.delete_profiles_button);
+        this.deleteProfileButton = (Button) findViewById(R.id.delete_profile_button);
 
         calibrateButton.setOnClickListener((view) -> {
             new AsyncCalibrateTask().execute();
@@ -66,6 +64,19 @@ public class ProfilesActivity extends AppCompatActivity {
                 RadioButton radioButton = (RadioButton) findViewById(profilesRadioGroup.getCheckedRadioButtonId());
                 new AsyncStartTrainingTask().execute(Integer.parseInt(radioButton.getText().toString().trim()), MainActivity.global_rep);
             }
+        });
+
+        deleteProfileButton.setOnClickListener((view) -> {
+            if(profilesRadioGroup.getCheckedRadioButtonId() == -1)
+            {
+            } else {
+                RadioButton radioButton = (RadioButton) findViewById(profilesRadioGroup.getCheckedRadioButtonId());
+                new AsyncDeleteProfileTask().execute(Integer.parseInt(radioButton.getText().toString().trim()));
+            }
+        });
+
+        deleteAllProfilesButton.setOnClickListener((view) -> {
+            new AsyncDeleteProfileTask().execute(0);
         });
     }
 
@@ -135,6 +146,7 @@ public class ProfilesActivity extends AppCompatActivity {
                 String[] profileNames = jsonObject.getJSONArray("profile_nos").join(",").split(",");
                 int i = 0;
                 int len = profileNames.length;
+                if(len == 1 && profileNames[0] == "") return;
                 for(int j = len - 1; j>=0; j--) {
                     RadioButton radioButton = new RadioButton(this.context);
                     radioButton.setText(profileNames[j]);
@@ -238,7 +250,59 @@ public class ProfilesActivity extends AppCompatActivity {
         }
     }
 
-    class ProfileAdapter extends BaseAdapter implements ListAdapter {
+    private class AsyncDeleteProfileTask extends AsyncTask<Integer, Void, Void> {
+
+        public static final String REQUEST_METHOD = "GET";
+        public static final int READ_TIMEOUT = 15000;
+        public static final int CONNECTION_TIMEOUT = 15000;
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            new AsyncRefreshTask().execute(context);
+        }
+
+        @Override
+        protected Void doInBackground(Integer... params) {
+            String urlString = "http://" + MainActivity.server_ip_address + "/delete_profile/" + params[0];
+            Log.d("DPURL", urlString);
+            String result = "";
+            try {
+                URL myUrl = new URL(urlString);
+
+                HttpURLConnection connection =  (HttpURLConnection) myUrl.openConnection();
+
+                connection.setRequestMethod(REQUEST_METHOD);
+                connection.setConnectTimeout(CONNECTION_TIMEOUT);
+                connection.setReadTimeout(READ_TIMEOUT);
+
+                connection.connect();
+
+                InputStreamReader inputStreamReader = new InputStreamReader(connection.getInputStream());
+
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                StringBuilder stringBuilder = new StringBuilder();
+                String inputLine;
+
+                while((inputLine = bufferedReader.readLine()) != null) {
+                    stringBuilder.append(inputLine);
+                }
+
+                bufferedReader.close();
+                inputStreamReader.close();
+
+                result = stringBuilder.toString();
+                Log.d("DPRES", result);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    /*class ProfileAdapter extends BaseAdapter implements ListAdapter {
 
         Context context;
         ArrayList<String> arrayList;
@@ -286,5 +350,5 @@ public class ProfilesActivity extends AppCompatActivity {
 
             return view;
         }
-    }
+    }*/
 }

@@ -9,44 +9,31 @@
     tools:showIn="@layout/activity_profiles">
 
     <android.support.constraint.Guideline
-        android:id="@+id/profile_left_guideline"
+        android:id="@+id/profile_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/profile_top_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.1" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/profile_right_guideline"
+        android:id="@+id/profile_bottom_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.9" />
-    <Button
-        android:id="@+id/refresh_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/refresh_text"
-        app:layout_constraintLeft_toRightOf="@id/profile_left_guideline"/>
 
-    <Button
-        android:id="@+id/calibrate_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/calibrate_text"
-        app:layout_constraintLeft_toRightOf="@id/refresh_button"
-        app:layout_constraintRight_toLeftOf="@id/train_button"
-        />
-
-    <Button
-        android:id="@+id/train_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/train_text"
-        app:layout_constraintLeft_toRightOf="@id/calibrate_button"
-        app:layout_constraintRight_toLeftOf="@id/profile_right_guideline"/>
-    <HorizontalScrollView
-        app:layout_constraintTop_toBottomOf="@id/train_button"
-        android:layout_width="wrap_content"
+    <ScrollView
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/profile_guideline"
+        android:layout_width="match_parent"
+        android:fillViewport="false"
         android:layout_height="wrap_content">
 
         <RadioGroup
@@ -56,7 +43,65 @@
             app:layout_constraintTop_toBottomOf="@id/calibrate_button"
             android:isScrollContainer="true"/>
 
-    </HorizontalScrollView>
+    </ScrollView>
 
+    <Button
+        android:id="@+id/refresh_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/refresh_text"
+        app:layout_constraintTop_toBottomOf="@id/profile_top_guideline"
+        app:layout_constraintBottom_toTopOf="@id/calibrate_button"
+        app:layout_constraintLeft_toRightOf="@id/profile_guideline"
+        app:layout_constraintRight_toRightOf="parent" />
 
+    <Button
+        android:id="@+id/calibrate_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/calibrate_text"
+        app:layout_constraintBottom_toTopOf="@id/train_button"
+        app:layout_constraintTop_toBottomOf="@id/refresh_button"
+        app:layout_constraintLeft_toRightOf="@id/profile_guideline"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <Button
+        android:id="@+id/train_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/train_text"
+        app:layout_constraintBottom_toTopOf="@id/delete_profile_button"
+        app:layout_constraintTop_toBottomOf="@id/calibrate_button"
+        app:layout_constraintLeft_toRightOf="@id/profile_guideline"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <!-- <Button
+        android:id="@+id/stop_train_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/stop_train_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/train_button"
+        app:layout_constraintLeft_toRightOf="@id/profile_guideline"
+        app:layout_constraintRight_toRightOf="parent" /> -->
+
+    <Button
+        android:id="@+id/delete_profile_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/delete_profile_text"
+        app:layout_constraintBottom_toBottomOf="@id/delete_profiles_button"
+        app:layout_constraintTop_toBottomOf="@id/train_button"
+        app:layout_constraintLeft_toRightOf="@id/profile_guideline"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <Button
+        android:id="@+id/delete_profiles_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/delete_profiles_text"
+        app:layout_constraintBottom_toBottomOf="@id/profile_bottom_guideline"
+        app:layout_constraintTop_toBottomOf="@id/delete_profile_button"
+        app:layout_constraintLeft_toRightOf="@id/profile_guideline"
+        app:layout_constraintRight_toRightOf="parent" />
 </android.support.constraint.ConstraintLayout>
