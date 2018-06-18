@@ -25,17 +25,17 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/app_name"
-        android:textSize="@dimen/large_font_size"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@id/rep_edit_text"
+        android:textSize="@dimen/huge_font_size"
+        app:layout_constraintBottom_toTopOf="@id/username_edit_text"
         app:layout_constraintLeft_toLeftOf="@id/left_guideline"
         app:layout_constraintRight_toRightOf="@id/right_guideline"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- <EditText
+    <EditText
         android:id="@+id/username_edit_text"
-        android:layout_height="wrap_content"
         android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:hint="@string/username_hint"
         android:textSize="@dimen/small_font_size"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -45,37 +45,14 @@
 
     <EditText
         android:id="@+id/password_edit_text"
-        android:layout_height="wrap_content"
         android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:hint="@string/password_hint"
-        android:textSize="@dimen/small_font_size"
         android:inputType="textPassword"
+        android:textSize="@dimen/small_font_size"
         app:layout_constraintLeft_toLeftOf="@id/left_guideline"
         app:layout_constraintRight_toRightOf="@id/right_guideline"
         app:layout_constraintTop_toBottomOf="@id/username_edit_text"
-        />
-
-    <EditText
-        android:id="@+id/ip_add_edit_text"
-        android:layout_height="wrap_content"
-        android:layout_width="0dp"
-        android:hint="@string/ip_add_hint"
-        android:textSize="@dimen/small_font_size"
-        app:layout_constraintLeft_toLeftOf="@id/left_guideline"
-        app:layout_constraintRight_toRightOf="@id/right_guideline"
-        app:layout_constraintTop_toBottomOf="@id/password_edit_text"
-        /> -->
-
-    <EditText
-        android:id="@+id/rep_edit_text"
-        android:layout_height="wrap_content"
-        android:layout_width="0dp"
-        android:hint="@string/rep_hint"
-        android:textSize="@dimen/small_font_size"
-        app:layout_constraintLeft_toLeftOf="@id/left_guideline"
-        app:layout_constraintRight_toRightOf="@id/right_guideline"
-        app:layout_constraintTop_toBottomOf="@id/app_name_text"
-        app:layout_constraintBottom_toTopOf="@id/login_button"
         />
 
     <Button
@@ -83,9 +60,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/login_text"
-        app:layout_constraintTop_toBottomOf="@id/rep_edit_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="@id/left_guideline"
-        app:layout_constraintRight_toRightOf="@id/right_guideline"/>
+        app:layout_constraintRight_toRightOf="@id/right_guideline"
+        app:layout_constraintTop_toBottomOf="@id/password_edit_text" />
 
 </android.support.constraint.ConstraintLayout>

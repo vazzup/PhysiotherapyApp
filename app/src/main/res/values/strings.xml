@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PhysioDevice</string>
+    <string name="app_name">RoboRehab</string>
     <string name="username_hint">Enter Username</string>
     <string name="password_hint">Enter Password</string>
     <string name="ip_add_hint">Enter IP</string>
