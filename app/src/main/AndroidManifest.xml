@@ -3,8 +3,11 @@
     package="edu.somaiya.physiodevice">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
+        android:name="edu.somaiya.physiodevice.VolleySingleton"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -19,12 +22,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ProfilesActivity"
-            android:label="@string/title_activity_profiles"
+            android:name=".DoctorActivity"
+            android:label="@string/title_activity_doctor"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".PatientActivity" />
     </application>
-
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>

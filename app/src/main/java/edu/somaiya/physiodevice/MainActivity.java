@@ -8,11 +8,11 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +20,6 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     public static final String server_ip_address = "192.168.43.178:5000";
-    public static Integer global_rep = 1;
     Button login;
     EditText username, password;
 
@@ -34,23 +33,25 @@ public class MainActivity extends AppCompatActivity {
         login.setOnClickListener((view) -> {
             String username_text = username.getText().toString().trim();
             String password_text = password.getText().toString().trim();
-            RequestQueue requestQueue = Volley.newRequestQueue(this);
-            Intent intent = new Intent(this, ProfilesActivity.class);
+            Intent intent = new Intent(this, DoctorActivity.class);
+            Log.d("LOGIN", "button clicked!!");
             StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://" + server_ip_address + "/loginverify", new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    if (response.equals("OK")) {
-                        startActivity(intent);
-                    } else {
-                        Log.d("LOGINRESP", response);
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        if (jsonObject.getString("status").equals("OK")) {
+                            intent.putExtra("doctorid", jsonObject.getInt("doctorid"));
+                            intent.putExtra("doctorname", jsonObject.getString("doctorname"));
+                            startActivity(intent);
+                        } else {
+                            Log.d("LOGINRESP", response);
+                        }
+                    } catch (JSONException jsonException) {
+                        jsonException.printStackTrace();
                     }
                 }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    error.printStackTrace();
-                }
-            }) {
+            }, error -> error.printStackTrace()) {
                 protected Map<String, String> getParams() {
                     Map<String, String> MyData = new HashMap<String, String>();
                     MyData.put("email", username_text); // Send email
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                     return MyData;
                 }
             };
-            requestQueue.add(stringRequest);
+            VolleySingleton.getInstance().getRequestQueue().add(stringRequest);
         });
     }
 }

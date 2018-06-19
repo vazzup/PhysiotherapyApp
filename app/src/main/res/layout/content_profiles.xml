@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="edu.somaiya.physiodevice.ProfilesActivity"
-    tools:showIn="@layout/activity_profiles">
+    tools:context="edu.somaiya.physiodevice.DoctorActivity"
+    tools:showIn="@layout/activity_doctor">
 
     <android.support.constraint.Guideline
         android:id="@+id/profile_guideline"
@@ -15,93 +15,23 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
 
-    <android.support.constraint.Guideline
-        android:id="@+id/profile_top_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.1" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/profile_bottom_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.9" />
-
-    <ScrollView
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/profile_guideline"
+    <TextView
+        android:id="@+id/doctorinfotext"
         android:layout_width="match_parent"
-        android:fillViewport="false"
-        android:layout_height="wrap_content">
-
-        <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/profile_radio_group"
-            app:layout_constraintTop_toBottomOf="@id/calibrate_button"
-            android:isScrollContainer="true"/>
-
-    </ScrollView>
-
-    <Button
-        android:id="@+id/refresh_button"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/refresh_text"
-        app:layout_constraintTop_toBottomOf="@id/profile_top_guideline"
-        app:layout_constraintBottom_toTopOf="@id/calibrate_button"
-        app:layout_constraintLeft_toRightOf="@id/profile_guideline"
-        app:layout_constraintRight_toRightOf="parent" />
+        android:textSize="@dimen/large_font_size"
+        app:layout_constraintBottom_toTopOf="@id/patientlist"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/calibrate_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/calibrate_text"
-        app:layout_constraintBottom_toTopOf="@id/train_button"
-        app:layout_constraintTop_toBottomOf="@id/refresh_button"
-        app:layout_constraintLeft_toRightOf="@id/profile_guideline"
-        app:layout_constraintRight_toRightOf="parent" />
-
-    <Button
-        android:id="@+id/train_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/train_text"
-        app:layout_constraintBottom_toTopOf="@id/delete_profile_button"
-        app:layout_constraintTop_toBottomOf="@id/calibrate_button"
-        app:layout_constraintLeft_toRightOf="@id/profile_guideline"
-        app:layout_constraintRight_toRightOf="parent"/>
-
-    <!-- <Button
-        android:id="@+id/stop_train_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/stop_train_text"
+    <ListView
+        android:id="@+id/patientlist"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/colorPrimaryDark"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/train_button"
-        app:layout_constraintLeft_toRightOf="@id/profile_guideline"
-        app:layout_constraintRight_toRightOf="parent" /> -->
-
-    <Button
-        android:id="@+id/delete_profile_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/delete_profile_text"
-        app:layout_constraintBottom_toBottomOf="@id/delete_profiles_button"
-        app:layout_constraintTop_toBottomOf="@id/train_button"
-        app:layout_constraintLeft_toRightOf="@id/profile_guideline"
-        app:layout_constraintRight_toRightOf="parent" />
-
-    <Button
-        android:id="@+id/delete_profiles_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/delete_profiles_text"
-        app:layout_constraintBottom_toBottomOf="@id/profile_bottom_guideline"
-        app:layout_constraintTop_toBottomOf="@id/delete_profile_button"
-        app:layout_constraintLeft_toRightOf="@id/profile_guideline"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/doctorinfotext" />
 </android.support.constraint.ConstraintLayout>

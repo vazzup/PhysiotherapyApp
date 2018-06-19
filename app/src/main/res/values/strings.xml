@@ -11,5 +11,8 @@
     <string name="calibrate_text">Calibrate</string>
     <string name="delete_profile_text">Delete</string>
     <string name="delete_profiles_text">Delete All</string>
-    <string name="title_activity_profiles">ProfilesActivity</string>
+    <string name="title_activity_doctor">Doctor Home</string>
+    <string name="login_failed">Oops! Wrong email or password!</string>
+    <string name="login_successful">Successfully logged in!</string>
+    <string name="gt_sign"> &gt; </string>
 </resources>
