@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String server_ip_address = "192.168.43.178:5000";
     Button login;
     EditText username, password;
+    TextView signupLink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         this.login = findViewById(R.id.login_button);
         this.username = findViewById(R.id.username_edit_text);
         this.password = findViewById(R.id.password_edit_text);
+        this.signupLink = findViewById(R.id.signup_link);
         login.setOnClickListener((view) -> {
             String username_text = username.getText().toString().trim();
             String password_text = password.getText().toString().trim();
@@ -60,6 +63,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             };
             VolleySingleton.getInstance().getRequestQueue().add(stringRequest);
+        });
+        signupLink.setOnClickListener((view) -> {
+            Intent intent = new Intent(this, SignupActivity.class);
+            startActivity(intent);
         });
     }
 }

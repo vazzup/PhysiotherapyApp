@@ -1,21 +1,15 @@
 package edu.somaiya.physiodevice;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -28,18 +22,23 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static java.lang.Integer.min;
-
 public class DoctorActivity extends AppCompatActivity {
 
     public static int doctorid = -1;
     public Context context;
     ListView patientListView;
     TextView doctorInfo;
-    List<Patient> patientList;
+    LinearLayout layout;
+//    List<Patient> patientList;
+
+    public static int getPixelValue(Context context, int dimenId) {
+        Resources resources = context.getResources();
+        return (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                dimenId,
+                resources.getDisplayMetrics()
+        );
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +47,13 @@ public class DoctorActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         doctorInfo = findViewById(R.id.doctorinfotext);
-        patientListView = findViewById(R.id.patientlist);
-        PatientArrayAdapter adapter = new PatientArrayAdapter(this, R.layout.patient_list_layout, patientList);
-        patientListView.setAdapter(adapter);
-        patientList = new ArrayList<>();
+        layout = findViewById(R.id.linearlayout);
+//        patientListView = findViewById(R.id.patientlist);
+//        PatientArrayAdapter adapter = new PatientArrayAdapter(this, R.layout.patient_list_layout, patientList);
+//        patientListView.setAdapter(adapter);
+//        patientList = new ArrayList<>();
         context = this;
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
         String doctorName = getIntent().getStringExtra("doctorname");
         doctorInfo.setText("Dr. " + doctorName);
         doctorInfo.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
@@ -65,6 +66,7 @@ public class DoctorActivity extends AppCompatActivity {
                     JSONObject jsonObject = new JSONObject(response);
                     JSONArray jsonArray = jsonObject.getJSONArray("result");
                     int length = jsonArray.length();
+//                    patientList.clear();
                     for (int i = 0; i < length; i++) {
                         jsonObject = jsonArray.getJSONObject(i);
                         String name, description, sex;
@@ -74,10 +76,25 @@ public class DoctorActivity extends AppCompatActivity {
                         sex = jsonObject.getString("sex");
                         age = jsonObject.getInt("age");
                         patientid = jsonObject.getInt("patientid");
-                        Patient patient = new Patient(patientid, name, description, sex, age);
-                        patientList.add(patient);
-                        adapter.notifyDataSetChanged();
+                        View view = layoutInflater.inflate(R.layout.patient_list_layout, null, false);
+                        ((TextView) view.findViewById(R.id.patientlisttext_desc)).setText(description);
+                        ((TextView) view.findViewById(R.id.patientlisttext_name)).setText(name);
+//                        ((Button)view.findViewById(R.id.patientlistbutton)).setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//                                Intent intent = new Intent(context, PatientActivity.class);
+//                                intent.putExtra("patientid", patientid);
+//                                intent.putExtra("patientname", name);
+//                                intent.putExtra("patientage", age);
+//                                intent.putExtra("patientsex", sex);
+//                                intent.putExtra("patientdescription", description);
+//                            }
+//                        });
+                        layout.addView(view);
+//                        Patient patient = new Patient(patientid, name, description, sex, age);
+//                        patientList.add(patient);
                     }
+//                    adapter.notifyDataSetChanged();
                 } catch (JSONException jsonException) {
                     jsonException.printStackTrace();
                 }
@@ -91,144 +108,119 @@ public class DoctorActivity extends AppCompatActivity {
         VolleySingleton.getInstance().getRequestQueue().add(stringRequest);
     }
 
-    public class Patient {
+//    public class Patient {
+//
+//        private String name, description, sex;
+//        private int patientid, age;
+//
+//        public Patient(int patientid, String name, String description, String sex, int age) {
+//            this.name = name;
+//            this.description = description;
+//            this.patientid = patientid;
+//            this.age = age;
+//            this.sex = sex;
+//        }
+//
+//        public String getName() {
+//            return this.name;
+//        }
+//
+//        public String getSex() {
+//            return this.sex;
+//        }
+//
+//        public String getDescription() {
+//            return this.description;
+//        }
+//
+//        public int getPatientID() {
+//            return this.patientid;
+//        }
+//
+//        public int getAge() {
+//            return this.age;
+//        }
+//    }
 
-        private String name, description, sex;
-        private int patientid, age;
+//    public class PatientArrayAdapter extends ArrayAdapter<String> {
+//        List<Patient> patientList;
+//        Context context;
+//        int resource;
+//
+//        public PatientArrayAdapter(@NonNull Context context, int resource, List<Patient> patientList) {
+//            super(context, resource);
+//            this.context = context;
+//            this.resource = resource;
+//            this.patientList = patientList;
+//        }
+//        @NonNull
+//
+//        @NonNull
+//        @Override
+//        public View getView(final int position, View convertView, ViewGroup parent) {
+//            LayoutInflater layoutInflater = LayoutInflater.from(context);
+//
+//            if(convertView == null)
+//                convertView = layoutInflater.inflate(resource, null, false);
+//
+//
+//        }
+//    }
 
-        public Patient(int patientid, String name, String description, String sex, int age) {
-            this.name = name;
-            this.description = description;
-            this.patientid = patientid;
-            this.age = age;
-            this.sex = sex;
-        }
-
-        public String getName() {
-            return this.name;
-        }
-
-        public String getSex() {
-            return this.sex;
-        }
-
-        public String getDescription() {
-            return this.description;
-        }
-
-        public int getPatientID() {
-            return this.patientid;
-        }
-
-        public int getAge() {
-            return this.age;
-        }
-    }
-
-    public class PatientAdapter extends BaseAdapter {
-
-        private Activity activity;
-        private LayoutInflater layoutInflater;
-        private List<Patient> patientList;
-
-        public PatientAdapter(Activity activity, List<Patient> patientList) {
-            this.activity = activity;
-            this.patientList = patientList;
-        }
-
-        @Override
-        public int getCount() {
-            return patientList.size();
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return patientList.get(i);
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return i;
-        }
-
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-            if (layoutInflater == null)
-                layoutInflater = (LayoutInflater) activity
-                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            if (view == null)
-                view = layoutInflater.inflate(R.layout.patient_list_layout, null);
-
-            TextView patientName = view.findViewById(R.id.patientlisttext_name);
-            TextView patientDescription = view.findViewById(R.id.patientlisttext_desc);
-            Button viewPatient = view.findViewById(R.id.patientlistbutton);
-
-            // getting movie data for the row
-            Patient patient = patientList.get(i);
-
-            // name
-            patientName.setText(patient.getName());
-
-            // description
-            patientDescription.setText(patient.getDescription());
-
-            return view;
-        }
-    }
-
-    public class PatientArrayAdapter extends ArrayAdapter<Patient> {
-
-        List<Patient> patientList;
-
-        Context context;
-
-        int resource; // For each item layout
-
-        public PatientArrayAdapter(@NonNull Context context, int resource, List<Patient> patientList) {
-            super(context, resource);
-            this.context = context;
-            this.resource = resource;
-            this.patientList = patientList;
-        }
-
-        @SuppressLint("SetTextI18n")
-        @NonNull
-        @Override
-        public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            //we need to get the view of the xml for our list item
-            //And for this we need a layoutinflater
-            LayoutInflater layoutInflater = LayoutInflater.from(context);
-
-            //getting the view
-            View view = layoutInflater.inflate(resource, null, false);
-
-            //getting the view elements of the list from the view
-            TextView patientName = view.findViewById(R.id.patientlisttext_name);
-            TextView patientDescription = view.findViewById(R.id.patientlisttext_desc);
-            Button expandPatientProfile = view.findViewById(R.id.patientlistbutton);
-
-            //getting the patient of the specified position
-            Patient patient = patientList.get(position);
-
-            //adding values to the list item
-            patientName.setText(patient.getName());
-            patientDescription.setText(patient.getDescription().substring(0, min(140, patient.getDescription().length())) + "...");
-
-            //adding a click listener to the button to remove item from the list
-            expandPatientProfile.setOnClickListener(view1 -> {
-                Intent intent = new Intent(context, PatientActivity.class);
-                intent.putExtra("patientid", patientList.get(position).getPatientID());
-                intent.putExtra("patientname", patientList.get(position).getName());
-                intent.putExtra("patientage", patientList.get(position).getAge());
-                intent.putExtra("patientsex", patientList.get(position).getSex());
-                intent.putExtra("patientdescription", patientList.get(position).getDescription());
-            });
-
-            //finally returning the view
-            return view;
-
-        }
-    }
+//    public class PatientArrayAdapter extends ArrayAdapter<Patient> {
+//
+//        List<Patient> patientList;
+//
+//        Context context;
+//
+//        int resource; // For each item layout
+//
+//        public PatientArrayAdapter(@NonNull Context context, int resource, List<Patient> patientList) {
+//            super(context, resource);
+//            this.context = context;
+//            this.resource = resource;
+//            this.patientList = patientList;
+//        }
+//
+//        @SuppressLint("SetTextI18n")
+//        @NonNull
+//        @Override
+//        public View getView(final int position, @Nullable View view, @NonNull ViewGroup parent) {
+//            //we need to get the view of the xml for our list item
+//            //And for this we need a layoutinflater
+//            LayoutInflater layoutInflater = LayoutInflater.from(context);
+//
+//            //getting the view
+//            if(view == null)
+//                view = layoutInflater.inflate(resource, null, false);
+//
+//            //getting the view elements of the list from the view
+//            TextView patientName = view.findViewById(R.id.patientlisttext_name);
+//            TextView patientDescription = view.findViewById(R.id.patientlisttext_desc);
+//            Button expandPatientProfile = view.findViewById(R.id.patientlistbutton);
+//
+//            //getting the patient of the specified position
+//            Patient patient = patientList.get(position);
+//
+//            //adding values to the list item
+//            patientName.setText(patient.getName());
+//            patientDescription.setText(patient.getDescription().substring(0, min(140, patient.getDescription().length())) + "...");
+//
+//            //adding a click listener to the button to remove item from the list
+//            expandPatientProfile.setOnClickListener(view1 -> {
+//                Intent intent = new Intent(context, PatientActivity.class);
+//                intent.putExtra("patientid", patientList.get(position).getPatientID());
+//                intent.putExtra("patientname", patientList.get(position).getName());
+//                intent.putExtra("patientage", patientList.get(position).getAge());
+//                intent.putExtra("patientsex", patientList.get(position).getSex());
+//                intent.putExtra("patientdescription", patientList.get(position).getDescription());
+//            });
+//
+//            //finally returning the view
+//            return view;
+//
+//        }
+//    }
 //        this.context = this;
 //        this.refreshButton = (Button) findViewById(R.id.refresh_button);
 //        this.calibrateButton = (Button) findViewById(R.id.calibrate_button);
@@ -540,3 +532,4 @@ public class DoctorActivity extends AppCompatActivity {
 //        }
 //    }*/
 }
+

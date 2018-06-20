@@ -3,32 +3,42 @@
     android:id="@+id/patientlistll_outer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="0dip"
+    android:layout_marginLeft="@dimen/small_font_size"
+    android:layout_marginRight="@dimen/small_font_size"
+    android:layout_marginTop="@dimen/small_font_size"
     android:orientation="horizontal">
 
     <LinearLayout
         android:id="@+id/patientlistll_inner"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:background="@color/colorAccent"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/medium_font_size">
 
         <TextView
             android:id="@+id/patientlisttext_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textAlignment="textStart"
             android:textSize="@dimen/medium_font_size" />
 
         <TextView
             android:id="@+id/patientlisttext_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textAlignment="textStart"
             android:textSize="@dimen/small_font_size" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/patientlistbutton"
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:text="@string/gt_sign"
-        android:textSize="@dimen/huge_font_size" />
+    <!--<Button-->
+    <!--android:paddingRight="@dimen/medium_font_size"-->
+    <!--android:id="@+id/patientlistbutton"-->
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:text="@string/gt_sign"-->
+    <!--android:textSize="@dimen/huge_font_size"-->
+    <!--style="@style/Widget.AppCompat.Button.Borderless"/>-->
 </LinearLayout>
 

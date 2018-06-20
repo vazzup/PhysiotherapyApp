@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="edu.somaiya.physiodevice.SignupActivity">
+
+    <android.support.constraint.Guideline
+        android:id="@+id/signup_leftguideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.2" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/signup_rightguideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.8" />
+
+    <EditText
+        android:id="@+id/signup_name"
+        android:layout_width="0px"
+        android:layout_height="wrap_content"
+        android:hint="@string/name_hint"
+        android:textSize="@dimen/small_font_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/signup_leftguideline"
+        app:layout_constraintRight_toLeftOf="@id/signup_rightguideline"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/signup_email"
+        android:layout_width="0px"
+        android:layout_height="wrap_content"
+        android:hint="@string/username_hint"
+        android:textSize="@dimen/small_font_size"
+        app:layout_constraintLeft_toRightOf="@id/signup_leftguideline"
+        app:layout_constraintRight_toLeftOf="@id/signup_rightguideline"
+        app:layout_constraintTop_toBottomOf="@id/signup_name" />
+
+    <EditText
+        android:id="@+id/signup_password"
+        android:layout_width="0px"
+        android:layout_height="wrap_content"
+        android:hint="@string/password_hint"
+        android:inputType="textPassword"
+        android:textSize="@dimen/small_font_size"
+        app:layout_constraintLeft_toRightOf="@id/signup_leftguideline"
+        app:layout_constraintRight_toLeftOf="@id/signup_rightguideline"
+        app:layout_constraintTop_toBottomOf="@id/signup_email" />
+
+    <Button
+        android:id="@+id/signup_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title_activity_signup"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/signup_leftguideline"
+        app:layout_constraintRight_toLeftOf="@id/signup_rightguideline"
+        app:layout_constraintTop_toBottomOf="@id/signup_password" />
+</android.support.constraint.ConstraintLayout>
