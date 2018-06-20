@@ -36,6 +36,7 @@
         android:layout_width="0px"
         android:layout_height="wrap_content"
         android:hint="@string/username_hint"
+        android:inputType="textEmailAddress"
         android:textSize="@dimen/small_font_size"
         app:layout_constraintLeft_toRightOf="@id/signup_leftguideline"
         app:layout_constraintRight_toLeftOf="@id/signup_rightguideline"

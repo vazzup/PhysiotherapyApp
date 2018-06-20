@@ -29,8 +29,11 @@
             android:name=".DoctorActivity"
             android:label="@string/title_activity_doctor"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".PatientActivity" />
-        <activity android:name=".SignupActivity"></activity>
+        <activity android:name=".SignupActivity" />
+        <activity
+            android:name=".PatientActivity"
+            android:label="@string/title_activity_patient"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

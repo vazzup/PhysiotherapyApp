@@ -2,6 +2,7 @@ package edu.somaiya.physiodevice;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Button;
@@ -46,9 +47,13 @@ public class MainActivity extends AppCompatActivity {
                         if (jsonObject.getString("status").equals("OK")) {
                             intent.putExtra("doctorid", jsonObject.getInt("doctorid"));
                             intent.putExtra("doctorname", jsonObject.getString("doctorname"));
+                            Snackbar.make(view, "Welcome to RoboRehab!", Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
                             startActivity(intent);
                         } else {
                             Log.d("LOGINRESP", response);
+                            Snackbar.make(view, "Login Failed! Incorrect Email or Password!", Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
                         }
                     } catch (JSONException jsonException) {
                         jsonException.printStackTrace();

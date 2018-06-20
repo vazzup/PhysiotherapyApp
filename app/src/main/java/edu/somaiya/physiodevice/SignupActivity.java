@@ -16,8 +16,8 @@ import java.util.Map;
 
 public class SignupActivity extends AppCompatActivity {
 
-    EditText name, email, password;
-    Button signupButton;
+    private EditText name, email, password;
+    private Button signupButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

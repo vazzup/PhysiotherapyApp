@@ -1,8 +1,10 @@
 package edu.somaiya.physiodevice;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -44,8 +46,10 @@ public class DoctorActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.doctortoolbar);
         setSupportActionBar(toolbar);
+        Snackbar.make(findViewById(R.id.doctortoolbar), "Welcome to RoboRehab!", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
         doctorInfo = findViewById(R.id.doctorinfotext);
         layout = findViewById(R.id.linearlayout);
 //        patientListView = findViewById(R.id.patientlist);
@@ -79,6 +83,16 @@ public class DoctorActivity extends AppCompatActivity {
                         View view = layoutInflater.inflate(R.layout.patient_list_layout, null, false);
                         ((TextView) view.findViewById(R.id.patientlisttext_desc)).setText(description);
                         ((TextView) view.findViewById(R.id.patientlisttext_name)).setText(name);
+                        view.setOnClickListener((view2) -> {
+                            Intent intent = new Intent(context, PatientActivity.class);
+                            intent.putExtra("doctorid", doctorid);
+                            intent.putExtra("patientid", patientid);
+                            intent.putExtra("patientname", name);
+                            intent.putExtra("patientage", age);
+                            intent.putExtra("patientsex", sex);
+                            intent.putExtra("patientdescription", description);
+                            startActivity(intent);
+                        });
 //                        ((Button)view.findViewById(R.id.patientlistbutton)).setOnClickListener(new View.OnClickListener() {
 //                            @Override
 //                            public void onClick(View view) {

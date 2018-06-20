@@ -15,7 +15,7 @@ public class VolleySingleton extends Application {
 
     private RequestQueue requestQueue;
 
-    public static synchronized VolleySingleton getInstance() {
+    static synchronized VolleySingleton getInstance() {
         return volleyInstance;
     }
 
