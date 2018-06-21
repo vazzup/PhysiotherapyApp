@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="edu.somaiya.physiodevice.PatientSignupActivity">
+
+    <android.support.constraint.Guideline
+        android:id="@+id/signup_leftguideline_"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.2" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/signup_rightguideline_"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.8" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/signup_vcenter_"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <EditText
+        android:id="@+id/signup_pname"
+        android:layout_width="0px"
+        android:layout_height="wrap_content"
+        android:hint="@string/name_hint"
+        android:textSize="@dimen/small_font_size"
+        app:layout_constraintBottom_toTopOf="@id/signup_page"
+        app:layout_constraintLeft_toRightOf="@id/signup_leftguideline_"
+        app:layout_constraintRight_toLeftOf="@id/signup_rightguideline_" />
+
+    <EditText
+        android:id="@+id/signup_page"
+        android:layout_width="0px"
+        android:layout_height="wrap_content"
+        android:hint="@string/age_hint"
+        android:textSize="@dimen/small_font_size"
+        app:layout_constraintBottom_toTopOf="@id/signup_vcenter_"
+        app:layout_constraintLeft_toRightOf="@id/signup_leftguideline_"
+        app:layout_constraintRight_toLeftOf="@id/signup_rightguideline_" />
+
+    <EditText
+        android:id="@+id/signup_psex"
+        android:layout_width="0px"
+        android:layout_height="wrap_content"
+        android:hint="@string/sex_hint"
+        android:textSize="@dimen/small_font_size"
+        app:layout_constraintLeft_toRightOf="@id/signup_leftguideline_"
+        app:layout_constraintRight_toLeftOf="@id/signup_rightguideline_"
+        app:layout_constraintTop_toTopOf="@id/signup_vcenter_" />
+
+    <EditText
+        android:id="@+id/signup_pdescription"
+        android:layout_width="0px"
+        android:layout_height="wrap_content"
+        android:hint="@string/description_hint"
+        android:textSize="@dimen/small_font_size"
+        app:layout_constraintLeft_toRightOf="@id/signup_leftguideline_"
+        app:layout_constraintRight_toLeftOf="@id/signup_rightguideline_"
+        app:layout_constraintTop_toBottomOf="@id/signup_psex" />
+
+    <Button
+        android:id="@+id/signup_pbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:text="@string/title_activity_signup"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/signup_leftguideline_"
+        app:layout_constraintRight_toLeftOf="@id/signup_rightguideline_"
+        app:layout_constraintTop_toBottomOf="@id/signup_pdescription" />
+</android.support.constraint.ConstraintLayout>

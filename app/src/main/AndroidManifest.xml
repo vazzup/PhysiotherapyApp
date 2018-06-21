@@ -34,6 +34,7 @@
             android:name=".PatientActivity"
             android:label="@string/title_activity_patient"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".PatientSignupActivity"></activity>
     </application>
 
 </manifest>

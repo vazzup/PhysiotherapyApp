@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -75,9 +76,9 @@ public class DoctorActivity extends AppCompatActivity {
                         jsonObject = jsonArray.getJSONObject(i);
                         String name, description, sex;
                         int age, patientid;
-                        name = jsonObject.getString("name");
-                        description = jsonObject.getString("description");
-                        sex = jsonObject.getString("sex");
+                        name = jsonObject.getString("name").replaceAll("%20", " ");
+                        description = jsonObject.getString("description").replaceAll("%20", " ");
+                        sex = jsonObject.getString("sex").replaceAll("%20", " ");
                         age = jsonObject.getInt("age");
                         patientid = jsonObject.getInt("patientid");
                         View view = layoutInflater.inflate(R.layout.patient_list_layout, null, false);
@@ -120,6 +121,14 @@ public class DoctorActivity extends AppCompatActivity {
             }
         });
         VolleySingleton.getInstance().getRequestQueue().add(stringRequest);
+        FloatingActionButton floatingActionButton = findViewById(R.id.addpatientbutton);
+        floatingActionButton.setOnClickListener((view) -> {
+            Intent intent = new Intent(this, PatientSignupActivity.class);
+            intent.putExtra("doctorid", doctorid);
+            intent.putExtra("doctorname", doctorName);
+            startActivity(intent);
+            finish();
+        });
     }
 
 //    public class Patient {

@@ -3,8 +3,9 @@
     <string name="name_hint">Enter Name</string>
     <string name="username_hint">Enter Email</string>
     <string name="password_hint">Enter Password</string>
-    <string name="ip_add_hint">Enter IP</string>
-    <string name="rep_hint">Enter No. Of Reps</string>
+    <string name="age_hint">Enter Age</string>
+    <string name="sex_hint">Enter Sex</string>
+    <string name="description_hint">Describe the patient\'s condition</string>
     <string name="login_text">Login</string>
     <string name="train_text">Train</string>
     <string name="stop_train_text">Stop Training</string>
@@ -20,4 +21,6 @@
     <string name="title_activity_patient">PatientActivity</string>
     <string name="action_settings">Settings</string>
     <string name="profiles_heading_text">Exercise Profiles</string>
+    <string name="dv_text">Distance Visualisation</string>
+    <string name="rv_text">Repetition Visualisation</string>
 </resources>
