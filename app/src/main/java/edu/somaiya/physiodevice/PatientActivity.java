@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -155,6 +156,10 @@ public class PatientActivity extends AppCompatActivity {
                         trainingsList.removeAllViewsInLayout();
                         for (int i = 0; i < length; i++) {
                             View view = inflater.inflate(R.layout.training_list_layout, null, false);
+                            if (i % 2 == 0)
+                                view.setBackgroundColor(0xFFe6fbff);
+                            else
+                                view.setBackgroundColor(0xFFFFFFFF);
                             ((TextView) view.findViewById(R.id.traininginfodesc)).setText(result.getJSONObject(i).getString("description"));
                             ((TextView) view.findViewById(R.id.traininginfodname)).setText(result.getJSONObject(i).getString("doctorname"));
                             ((TextView) view.findViewById(R.id.traininginforeps)).setText(result.getJSONObject(i).getString("repetitions") + " reps");
@@ -185,6 +190,10 @@ public class PatientActivity extends AppCompatActivity {
                             trainingsList.removeAllViewsInLayout();
                             for (int i = 0; i < length; i++) {
                                 View view = inflater.inflate(R.layout.training_list_layout, null, false);
+                                if (i % 2 == 0)
+                                    view.setBackgroundColor(0xFFe6fbff);
+                                else
+                                    view.setBackgroundColor(0xFFFFFFFF);
                                 ((TextView) view.findViewById(R.id.traininginfodesc)).setText(result.getJSONObject(i).getString("description").replaceAll("%20", " "));
                                 ((TextView) view.findViewById(R.id.traininginfodname)).setText(result.getJSONObject(i).getString("doctorname").replaceAll("%20", " "));
                                 ((TextView) view.findViewById(R.id.traininginforeps)).setText(result.getJSONObject(i).getInt("repetitions") + " reps");
@@ -253,37 +262,58 @@ public class PatientActivity extends AppCompatActivity {
                 public void onResponse(String response) {
                     try {
                         JSONObject jsonObject = new JSONObject(response);
-                        Log.d("Training Response", response);
                         JSONArray result = jsonObject.getJSONArray("profiles");
                         int length = result.length();
                         for (int i = 0; i < length; i++) {
                             View view = inflater.inflate(R.layout.eprofile_list_layout, null, false);
-                            ((TextView) view.findViewById(R.id.eprofiledesc)).setText(result.getJSONObject(i).getInt("profileid") + ". " + result.getJSONObject(i).getString("description").replaceAll("%20", " "));
+                            if (i % 2 == 0)
+                                view.setBackgroundColor(0xFFe6fbff);
+                            else
+                                view.setBackgroundColor(0xFFFFFFFF);
+                            ((TextView) view.findViewById(R.id.eprofiledesc)).setText(result.getJSONObject(i).getString("description").replaceAll("%20", " "));
                             ((TextView) view.findViewById(R.id.eprofiledoctor)).setText(result.getJSONObject(i).getString("doctorname").replaceAll("%20", " "));
                             if (!(result.getJSONObject(i).getString("lastused").replaceAll("%20", " ").equalsIgnoreCase("null"))) {
                                 ((TextView) view.findViewById(R.id.eprofiletimestamp)).setText(result.getJSONObject(i).getString("lastused").replaceAll("%20", " "));
                             } else {
                                 ((TextView) view.findViewById(R.id.eprofiletimestamp)).setText("");
                             }
+                            final int j = i;
                             view.setOnClickListener((innerView) -> {
+                                LinearLayout linearLayout = new LinearLayout(getContext());
+                                linearLayout.setOrientation(LinearLayout.VERTICAL);
+                                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                                        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                                linearLayout.setLayoutParams(layoutParams);
                                 final EditText taskEditText = new EditText(getContext());
+                                taskEditText.setHint("Description");
+                                taskEditText.setLayoutParams(new ViewGroup.LayoutParams(
+                                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                                taskEditText.setPadding(2, 0, 2, 2);
+                                linearLayout.addView(taskEditText);
+                                TextView tv = new TextView(getContext());
+                                tv.setLayoutParams(new ViewGroup.LayoutParams(0, 0));
+                                try {
+                                    tv.setText("" + result.getJSONObject(j).getInt("profileid"));
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                                 AlertDialog dialog = new AlertDialog.Builder(getContext())
                                         .setTitle("Repetitions")
                                         .setMessage("How many times do you want to conduct the exercise?")
-                                        .setView(taskEditText)
+                                        .setView(linearLayout)
                                         .setPositiveButton("Start", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                String descText = ((TextView) innerView.findViewById(R.id.eprofiledesc)).getText().toString();
-                                                String number = "";
-                                                for (int i = 0; i < descText.length(); i++) {
-                                                    if (descText.charAt(i) <= '9' && descText.charAt(i) >= '0') {
-                                                        number += descText.charAt(i);
-                                                    } else {
-                                                        break;
-                                                    }
-                                                }
-                                                int profileid = Integer.parseInt(number.trim());
+//                                                String descText = ((TextView) innerView.findViewById(R.id.eprofiledesc)).getText().toString();
+//                                                String number = "";
+//                                                for (int i = 0; i < descText.length(); i++) {
+//                                                    if (descText.charAt(i) <= '9' && descText.charAt(i) >= '0') {
+//                                                        number += descText.charAt(i);
+//                                                    } else {
+//                                                        break;
+//                                                    }
+//                                                }
+                                                int profileid = Integer.parseInt(tv.getText().toString().trim());
                                                 int reps = Integer.parseInt(taskEditText.getText().toString().trim());
                                                 StringRequest stringRequest1 = new StringRequest(Request.Method.GET,
                                                         "http://" + MainActivity.server_ip_address + "/start_training/" + args.getInt("doctorid") + "/" + args.getInt("patientid") + "/" + profileid + "/" + reps, new Response.Listener<String>() {
@@ -319,17 +349,6 @@ public class PatientActivity extends AppCompatActivity {
 
             FloatingActionButton fab = rootView.findViewById(R.id.addeprofilebutton);
             fab.setOnClickListener((view) -> {
-//                LinearLayout linearLayout = new LinearLayout(getContext());
-//                linearLayout.setOrientation(LinearLayout.VERTICAL);
-//                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-//                        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-//                linearLayout.setLayoutParams(layoutParams);
-//                EditText descriptionText = new EditText(getContext());
-//                descriptionText.setHint("Description");
-//                descriptionText.setLayoutParams(new ViewGroup.LayoutParams(
-//                        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-//                descriptionText.setPadding(2, 0, 2, 2);
-//                linearLayout.addView(descriptionText);
 //
 //                AlertDialog dialog = new AlertDialog.Builder(getContext())
 //                        .setTitle("Repetitions")
@@ -386,32 +405,54 @@ public class PatientActivity extends AppCompatActivity {
                             int length = result.length();
                             for (int i = 0; i < length; i++) {
                                 View view = inflater.inflate(R.layout.eprofile_list_layout, null, false);
-                                ((TextView) view.findViewById(R.id.eprofiledesc)).setText(result.getJSONObject(i).getInt("profileid") + ". " + result.getJSONObject(i).getString("description").replaceAll("%20", " "));
+                                if (i % 2 == 0)
+                                    view.setBackgroundColor(0xFFe6fbff);
+                                else
+                                    view.setBackgroundColor(0xFFFFFFFF);
+                                ((TextView) view.findViewById(R.id.eprofiledesc)).setText(result.getJSONObject(i).getString("description").replaceAll("%20", " "));
                                 ((TextView) view.findViewById(R.id.eprofiledoctor)).setText(result.getJSONObject(i).getString("doctorname").replaceAll("%20", " "));
                                 if (!(result.getJSONObject(i).getString("lastused").replaceAll("%20", " ").equalsIgnoreCase("null"))) {
                                     ((TextView) view.findViewById(R.id.eprofiletimestamp)).setText(result.getJSONObject(i).getString("lastused").replaceAll("%20", " "));
                                 } else {
                                     ((TextView) view.findViewById(R.id.eprofiletimestamp)).setText("");
                                 }
+                                final int j = i;
                                 view.setOnClickListener((innerView) -> {
+                                    LinearLayout linearLayout = new LinearLayout(getContext());
+                                    linearLayout.setOrientation(LinearLayout.VERTICAL);
+                                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                                            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                                    linearLayout.setLayoutParams(layoutParams);
                                     final EditText taskEditText = new EditText(getContext());
+                                    taskEditText.setHint("Description");
+                                    taskEditText.setLayoutParams(new ViewGroup.LayoutParams(
+                                            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                                    taskEditText.setPadding(2, 0, 2, 2);
+                                    linearLayout.addView(taskEditText);
+                                    TextView tv = new TextView(getContext());
+                                    tv.setLayoutParams(new ViewGroup.LayoutParams(0, 0));
+                                    try {
+                                        tv.setText("" + result.getJSONObject(j).getInt("profileid"));
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
                                     AlertDialog dialog = new AlertDialog.Builder(getContext())
                                             .setTitle("Repetitions")
                                             .setMessage("How many times do you want to conduct the exercise?")
-                                            .setView(taskEditText)
+                                            .setView(linearLayout)
                                             .setPositiveButton("Start", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
-                                                    String descText = ((TextView) innerView.findViewById(R.id.eprofiledesc)).getText().toString();
-                                                    String number = "";
-                                                    for (int i = 0; i < descText.length(); i++) {
-                                                        if (descText.charAt(i) <= '9' && descText.charAt(i) >= '0') {
-                                                            number += descText.charAt(i);
-                                                        } else {
-                                                            break;
-                                                        }
-                                                    }
-                                                    int profileid = Integer.parseInt(number.trim());
+//                                                String descText = ((TextView) innerView.findViewById(R.id.eprofiledesc)).getText().toString();
+//                                                String number = "";
+//                                                for (int i = 0; i < descText.length(); i++) {
+//                                                    if (descText.charAt(i) <= '9' && descText.charAt(i) >= '0') {
+//                                                        number += descText.charAt(i);
+//                                                    } else {
+//                                                        break;
+//                                                    }
+//                                                }
+                                                    int profileid = Integer.parseInt(tv.getText().toString().trim());
                                                     int reps = Integer.parseInt(taskEditText.getText().toString().trim());
                                                     StringRequest stringRequest1 = new StringRequest(Request.Method.GET,
                                                             "http://" + MainActivity.server_ip_address + "/start_training/" + args.getInt("doctorid") + "/" + args.getInt("patientid") + "/" + profileid + "/" + reps, new Response.Listener<String>() {
@@ -535,20 +576,20 @@ public class PatientActivity extends AppCompatActivity {
                             for (int i = 0; i < length; i++) {
                                 JSONObject item = result.getJSONObject(i);
                                 String profile = item.getString("profile");
-                                String[] vals = profile.split(",");
-                                int[] vals_i = new int[vals.length];
+                                String[] vals = profile.split("v");
+                                int[] vals_i = new int[vals.length - 1];
                                 int mx = -100000000;
                                 int mn = 100000000;
-                                for (int j = 0; j < vals.length; j++) {
+                                for (int j = 0; j < vals.length - 1; j++) {
                                     vals_i[j] = Integer.parseInt(vals[j]);
                                     mn = Math.min(mn, vals_i[j]);
                                     mx = Math.max(mx, vals_i[j]);
                                 }
                                 String timestamp = item.getString("timestamp").trim();
                                 if (!map.containsKey(timestamp)) {
-                                    map.put(timestamp, mx - mn);
+                                    map.put(timestamp, (mx - mn) / 10);
                                 } else {
-                                    map.put(timestamp, Math.max(map.get(timestamp), mx - mn));
+                                    map.put(timestamp, Math.max(map.get(timestamp), (mx - mn) / 10));
                                 }
                             }
                             LineChart repsChart = rootView.findViewById(R.id.dailyrepschart);
@@ -571,7 +612,19 @@ public class PatientActivity extends AppCompatActivity {
 
             });
 
-            VolleySingleton.getInstance().getRequestQueue().add(repRequest);
+            // VolleySingleton.getInstance().getRequestQueue().add(repRequest);
+
+            List<Entry> entries = new ArrayList<Entry>();
+            int i = 0;
+            for (i = 0; i < 30; i++) {
+                entries.add(new Entry(++i, i));
+            }
+
+            LineChart repsChart = rootView.findViewById(R.id.dailyrepschart);
+            LineDataSet dataSet = new LineDataSet(entries, "Reps v/s session no.");
+            LineData lineData = new LineData(dataSet);
+            repsChart.setData(lineData);
+            repsChart.invalidate();
 
             RadioButton rvrb = rootView.findViewById(R.id.rv_rb);
             RadioButton dvrb = rootView.findViewById(R.id.dv_rb);
@@ -587,6 +640,54 @@ public class PatientActivity extends AppCompatActivity {
                     VolleySingleton.getInstance().getRequestQueue().add(distanceRequest);
                 }
             });
+
+            return rootView;
+        }
+    }
+
+    public static class RewardsFragment extends Fragment {
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+        private static final String ARG_SECTION_NUMBER = "section_number";
+
+        public RewardsFragment() {
+        }
+
+        /**
+         * Returns a new instance of this fragment for the given section
+         * number.
+         */
+        public static RewardsFragment newInstance(int sectionNumber, Intent intent) {
+            String patientName = intent.getStringExtra("patientname");
+            int patientAge = intent.getIntExtra("patientage", 0);
+            String patientSex = intent.getStringExtra("patientsex");
+            int patientID = intent.getIntExtra("patientid", 1);
+            String patientDescription = intent.getStringExtra("patientdescription");
+            int doctorID = intent.getIntExtra("doctorid", 1);
+            RewardsFragment fragment = new RewardsFragment();
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            args.putString("patientname", patientName);
+            args.putInt("patientage", patientAge);
+            args.putString("patientsex", patientSex);
+            args.putInt("patientid", patientID);
+            args.putString("patientdescription", patientDescription);
+            args.putInt("doctorid", doctorID);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_rewards, container, false);
+
+            TextView tv = rootView.findViewById(R.id.remainingsessions_text);
+            Bundle args = getArguments();
+            String sourceString = "<h1>Good going " + args.getString("patientname") + "!</h1> <br> You are only <b>5 sessions</b> away from your next reward!";
+            tv.setText(Html.fromHtml(sourceString));
 
             return rootView;
         }
@@ -613,8 +714,12 @@ public class PatientActivity extends AppCompatActivity {
                     return "History";
                 case 1:
                     return "Train";
-                default:
+                case 2:
                     return "Visualise";
+                case 3:
+                    return "rewards";
+                default:
+                    return "Robo-Rehab";
             }
 
         }
@@ -630,6 +735,8 @@ public class PatientActivity extends AppCompatActivity {
                     return TrainingFragment.newInstance(position + 1, intent);
                 case 2:
                     return VisualisationFragment.newInstance(position + 1, intent);
+                case 3:
+                    return RewardsFragment.newInstance(position + 1, intent);
                 default:
                     return AboutFragment.newInstance(position + 1, intent);
             }
@@ -638,7 +745,7 @@ public class PatientActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return 4;
         }
     }
 }

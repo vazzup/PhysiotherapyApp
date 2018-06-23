@@ -82,6 +82,10 @@ public class DoctorActivity extends AppCompatActivity {
                         age = jsonObject.getInt("age");
                         patientid = jsonObject.getInt("patientid");
                         View view = layoutInflater.inflate(R.layout.patient_list_layout, null, false);
+                        if (i % 2 == 0)
+                            view.setBackgroundColor(0xFFe6fbff);
+                        else
+                            view.setBackgroundColor(0xFFFFFFFF);
                         ((TextView) view.findViewById(R.id.patientlisttext_desc)).setText(description);
                         ((TextView) view.findViewById(R.id.patientlisttext_name)).setText(name);
                         view.setOnClickListener((view2) -> {

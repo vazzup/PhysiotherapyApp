@@ -9,18 +9,21 @@
         android:id="@+id/eprofiledesc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/small_font_size"
         android:textSize="@dimen/medium_font_size" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/small_font_size">
 
         <TextView
             android:id="@+id/eprofiledoctor"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textAlignment="textStart"
             android:textSize="@dimen/small_font_size" />
 
         <TextView
@@ -28,6 +31,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textAlignment="center"
             android:textSize="@dimen/small_font_size" />
     </LinearLayout>
 </LinearLayout>

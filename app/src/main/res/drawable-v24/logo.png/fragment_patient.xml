@@ -1,0 +1,46 @@
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" android:id="@+id/constraintLayout"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    tools:context="edu.somaiya.physiodevice.PatientActivity$AboutFragment">
+
+    <LinearLayout android:id="@+id/patientinfoll" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:background="@color/colorPrimary"
+        android:orientation="vertical" app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" app:layout_constraintTop_toTopOf="parent">
+
+        <TextView android:id="@+id/patientinfo_name" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:paddingBottom="1.5dp"
+            android:paddingLeft="2dp" android:paddingRight="2dp" android:paddingTop="3dp"
+            android:textAlignment="center" android:textColor="#000"
+            android:textSize="@dimen/medium_font_size" />
+
+        <TextView android:id="@+id/patientinfo_desc" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:paddingBottom="3dp"
+            android:paddingLeft="2dp" android:paddingRight="2dp" android:paddingTop="1.5dp"
+            android:textAlignment="center" android:textColor="#000"
+            android:textSize="@dimen/small_font_size" />
+
+    </LinearLayout>
+
+    <ScrollView android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/patientinfoll">
+
+        <LinearLayout android:id="@+id/traininginfolist" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:clipToPadding="false"
+            android:orientation="vertical" />
+
+    </ScrollView>
+
+    <android.support.design.widget.FloatingActionButton android:id="@+id/refreshhistorybutton"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom" android:layout_margin="@dimen/fab_margin"
+        android:padding="0dp" android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:srcCompat="@drawable/ic_refresh_black_24dp" />
+
+</android.support.constraint.ConstraintLayout>

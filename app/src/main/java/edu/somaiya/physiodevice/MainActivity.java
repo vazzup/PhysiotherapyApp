@@ -21,7 +21,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String server_ip_address = "192.168.43.178:5000";
+    public static final String server_ip_address = "192.168.43.200:5000";
     Button login;
     EditText username, password;
     TextView signupLink;

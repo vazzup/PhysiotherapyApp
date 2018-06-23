@@ -28,16 +28,12 @@ public class PatientSignupActivity extends AppCompatActivity {
             final String description = ((TextView) findViewById(R.id.signup_pdescription)).getText().toString().trim().replaceAll(" ", "%20");
             final int doctorid = getIntent().getIntExtra("doctorid", 1);
             String doctorname = getIntent().getStringExtra("doctorname");
-            Intent intent = new Intent(this, DoctorActivity.class);
-            intent.putExtra("doctorname", doctorname);
-            intent.putExtra("doctorid", doctorid);
             StringRequest stringRequest = new StringRequest(Request.Method.POST,
                     "http://" + MainActivity.server_ip_address + "/patientsignup",
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            startActivity(intent);
-                            finish();
+
                         }
                     }, new Response.ErrorListener() {
                 @Override
@@ -56,6 +52,11 @@ public class PatientSignupActivity extends AppCompatActivity {
                 }
             };
             VolleySingleton.getInstance().getRequestQueue().add(stringRequest);
+            Intent intent = new Intent(this, DoctorActivity.class);
+            intent.putExtra("doctorname", doctorname);
+            intent.putExtra("doctorid", doctorid);
+            startActivity(intent);
+            finish();
         });
     }
 }
