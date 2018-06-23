@@ -6,7 +6,7 @@ This app has been created by students of K. J. Somaiya College of Engineering fo
 ## Contributors:
 1. Vatsal Kanakiya
 2. Chirag Shah
-3. Ninad Gundu
+3. Ninad Gund
 4. Nirav Shah
 5. Owais Shaikh
 6. Abhishek Rai
@@ -28,3 +28,10 @@ Features added are:
    4. Add no. of Reps
    5. Replace ListView with RadioGroup (Scrollable!)
    
+### Version 3.0
+_Version 2.0 is now live and available in it's separate branch!_
+Features added are:
+   1. Completely revamped UI / UX
+   2. Doctor Signup / Login
+   3. Patient Profile creation
+   4. Patient history and exercise sessions visualisation
